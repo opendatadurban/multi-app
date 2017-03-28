@@ -1,0 +1,38 @@
+<div class="navbar-top">
+    <div class="container">
+        <div class="row">
+            <div class="logo span4">
+                <a href="/" class="hnl-logo">Durban Answers</a>
+                <span class="bubble"><img src="../../static/img/beta.png" class="beta" alt="beta"></span>
+            </div>
+            <ul class="nav-top span5">
+                <li class="">
+                    <a href={{ url_for('quick_answers') }}>Quick Answers</a>
+                </li>
+                <li class="">
+                    <a href={{ url_for('guides') }}>Guides</a>
+                </li>
+                <li class="">
+                    <a href={{ url_for('services') }}>Web Services</a>
+                </li>
+            </ul>
+            {% if request.path != '/' or show %}
+            <div class="header-search span3">
+             <form action="{{ url_for('home') }}" id="form" class="form-horizontal" method="POST">
+              {{ form.csrf_token }}
+              {{ form.hidden_tag() }}
+
+              <div class="form-group {% if form.search.errors %} has-error {% endif %}">
+                  <div>
+                      {{ form.search(id='search', placeholder="Search...") }}
+                  </div>
+                  <p class="help-block">
+                  {{ form.search.errors[0] }}
+              </div>
+            <input class="btn-search" id="home-search" type="submit" value="SEARCH" title="Search">
+            </form>
+            </div>
+            {%  endif %}
+        </div><!-- /row -->
+    </div>
+</div><!-- /navbar-top -->

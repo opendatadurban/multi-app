@@ -1,0 +1,91 @@
+<script type="text/javascript">
+
+    var csrf_token = "{{ csrf_token() }}";
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    google.charts.load('visualization', 'current', {
+        packages: ['line', 'table', 'corechart']
+    });
+
+    function drawBar1() {
+
+        var data1 = google.visualization.arrayToDataTable({{ table2|safe }});
+
+        var data2 = google.visualization.arrayToDataTable({{ table1|safe }});
+
+        var options1 = {
+          curveType: 'function',
+          legend: {position: {% if request.MOBILE %}'none'{% else %}'right'{% endif %}},
+          height: '{{ Height }}',
+          hAxis: {gridlines: {count: 4}},
+          axes: {
+                y: {
+                    all: {
+                        range: {
+                            max: {{ max }},
+                            min: {{ min }}
+                        }
+                    }
+                }
+          }
+        };
+
+        var options2 = {
+            height: '800',
+            width: '1024',
+            legend: {position: 'right', maxLines: 10},
+            chartArea: {left: '10%', right: '45%'},
+            hAxis: {gridlines: {count: 4}},
+            axes: {
+                y: {
+                    all: {
+                        range: {
+                            max: {{ max }},
+                            min: {{ min }}
+                        }
+                    }
+                }
+            }
+            };
+
+        var chart1 = new google.charts.Line(document.getElementById('chart1'));
+
+        var chart2 = new google.visualization.LineChart(document.getElementById('chart_img'));
+
+        chart1.draw(data1, google.charts.Line.convertOptions(options1));
+        chart2.draw(data1, options2);
+
+        var table = new google.visualization.Table(document.getElementById('table'));
+
+        table.draw(data2);
+
+        function resize () {
+            chart1.draw(data1, google.charts.Line.convertOptions(options1));
+            chart2.draw(data1, options2);
+            table.draw(data2);
+           }
+
+        if (window.addEventListener) {
+            window.addEventListener('resize', resize);
+        }
+
+        else {
+            window.attachEvent('onresize', resize);
+        }
+
+        }
+
+    google.setOnLoadCallback(drawBar1);
+
+</script>
