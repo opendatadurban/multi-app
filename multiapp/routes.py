@@ -13,8 +13,8 @@ def home():
 
     if request.method == 'POST':
 
-        return render_template('results/results.html')
-    else:
         return render_template('home/home.html')
+    else:
+        return render_template('home/home.html', title='App 1')
 
 

@@ -2,7 +2,7 @@ from flask_script import Manager
 # from flask_migrate import Migrate, MigrateCommand
 
 from multiapp.core import app
-from multiapp.models import db
+# from multiapp.models import db
 
 # migrate = Migrate(app, db)
 manager = Manager(app)

@@ -90,5 +90,5 @@ ENV/
 .ropeproject
 *.xml
 .idea/inspectionProfiles/profiles_settings.xml
-*.xml
 .idea/multi-app.iml
+
