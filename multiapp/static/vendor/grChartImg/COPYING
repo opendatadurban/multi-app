@@ -1,0 +1,14 @@
+grChartImg Library
+=======================
+
+grChartImg Library is released under the MIT License. It
+contains several files which are derived from other projects.
+These files are the following and their licenses.
+
+
+Third-party libraries used in grChartImg 
+---------------------------------------------
+
+ - Canvg javascript
+   https://code.google.com/p/canvg/
+   Released under MIT License

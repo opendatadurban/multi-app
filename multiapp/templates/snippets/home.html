@@ -1,0 +1,14 @@
+<form action="{{ url_for('home') }}" id="form" class="form-horizontal" method="POST">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+
+    <div class="form-group {% if form.search.errors %} has-error {% endif %}">
+        <div>
+            {{ form.search(id='search', placeholder="Search...") }}
+        </div>
+        <p class="help-block">
+            {{ form.search.errors[0] }}
+    </div>
+
+    <input class="btn-search" id="home-search" type="submit" value="SEARCH" title="Search">
+</form>
