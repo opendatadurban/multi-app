@@ -4,6 +4,13 @@ import datetime
 URL = "http://mapit.code4sa.org/address?address=%s&generation=2&type=WD"
 URLxy = "http://mapit.code4sa.org/point/4326/%s,%s"
 
+def get_wazi_data(ward):
+    url = 'https://www.wazimap.co.za/profiles/ward-%s.json' % ward['ward_id']
+    r = requests.get(url)
+    js = r.json()
+
+    return {}
+
 
 def coords_to_ward(lon, lat):
     url = URLxy % (lon, lat)

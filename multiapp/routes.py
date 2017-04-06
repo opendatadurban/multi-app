@@ -47,9 +47,34 @@ def ward_councillor():
             variables.update(ward)
             councillor = get_councillor(ward)
             variables["councillor"] = councillor
-            print councillor
 
         else:
             variables['missing'] = True
 
     return render_template('councillor/councillor.html', **variables)
+
+
+@app.route('/wazimap')
+def ward_councillor():
+    address = request.args.get("address")
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    ward = None
+
+    variables = {'missing': False}
+    candidates = []
+    if address:
+        ward = address_to_ward(address)
+    elif lat:
+        ward = coords_to_ward(lon, lat)
+
+    if ward:
+        if ward['ward']:
+            variables.update(ward)
+
+            return render_template('wazimap/wazimap.html', **variables)
+
+        else:
+            variables['missing'] = True
+
+    return render_template('wazimap/wazimap.html', **variables)
