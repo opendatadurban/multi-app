@@ -55,7 +55,7 @@ def ward_councillor():
 
 
 @app.route('/wazimap')
-def ward_councillor():
+def wazimap():
     address = request.args.get("address")
     lat = request.args.get("lat")
     lon = request.args.get("lon")
@@ -71,7 +71,6 @@ def ward_councillor():
     if ward:
         if ward['ward']:
             variables.update(ward)
-
             return render_template('wazimap/wazimap.html', **variables)
 
         else:

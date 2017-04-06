@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    <script src="https://wazimap.co.za/static/js/embed.chart.make.js"></script>
+
     <script>
 
         function geoFindMe() {
@@ -25,6 +27,23 @@
 
             navigator.geolocation.getCurrentPosition(success, error);
         }
+
+    </script>
+
+    <script type="text/javascript">
+    $(function(){
+
+        $('#census-reporter-embed').carousel(
+            {interval: 5000,
+            cycle: true}
+        );
+
+        $('#census-reporter-embed').on('slide.bs.carousel', function () {
+{#            $('.carousel-inner').empty();#}
+            makeCensusEmbeds();
+        })
+    });
+
     </script>
 
     <section class="container">
@@ -33,10 +52,42 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">Wazimap Ward Data</div>
                     <div class="panel-body">
+
+                    {% if ward %}
+
+                                <div id="results">
+
+                                    <div id="census-reporter-embed" class="carousel slide" data-ride="carousel" style="text-align: center">
+                                      <!-- Indicators -->
+                                      <ol class="carousel-indicators">
+                                        <li data-target="census-reporter-embed" data-slide-to="0" class="active"></li>
+                                        <li data-target="census-reporter-embed" data-slide-to="1"></li>
+                                        <li data-target="census-reporter-embed" data-slide-to="2"></li>
+                                      </ol>
+
+                                      <!-- Wrapper for slides -->
+                                      <div class="carousel-inner">
+                                        <div class="item active">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-age_category_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-age_category_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                        <div class="item">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-sex_ratio" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-sex_ratio&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Sex&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                        <div class="item">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-region_of_birth_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-region_of_birth_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Region+of+birth&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                      </div>
+
+                                      <!-- Controls -->
+
+                                    </div> <!-- Carousel -->
+
+                        {% else %}
+
                         {% if missing %}
                             <p class="alert alert-warning">Hmm, we couldn't find your address or ward. Please try again.</p>
                         {% endif %}
-                        <form role="form" action="/ward_councillor">
+                        <form role="form" action="/wazimap">
                             <div class="form-group">
                                 <label class="control-label" for="address">Enter your address:</label>
                                 <div class="input-group">
@@ -58,53 +109,10 @@
                             <br>
                         </form>
 
-                        {% if ward %}
+                         {% endif %}
 
-                                <div id="results">
+                                </div>
 
-                                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                                      <!-- Indicators -->
-                                      <ol class="carousel-indicators">
-                                        <li data-target="#carousel-chart" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carousel-chart" data-slide-to="1"></li>
-                                        <li data-target="#carousel-chart" data-slide-to="2"></li>
-                                      </ol>
-
-                                      <!-- Wrapper for slides -->
-                                      <div class="carousel-inner">
-                                        <div class="item active">
-                                          <img src="http://placehold.it/1200x315" alt="...">
-                                          <div class="carousel-caption">
-                                            <h3>Caption Text</h3>
-                                          </div>
-                                        </div>
-                                        <div class="item">
-                                          <img src="http://placehold.it/1200x315" alt="...">
-                                          <div class="carousel-caption">
-                                            <h3>Caption Text</h3>
-                                          </div>
-                                        </div>
-                                        <div class="item">
-                                          <img src="http://placehold.it/1200x315" alt="...">
-                                          <div class="carousel-caption">
-                                            <h3>Caption Text</h3>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <!-- Controls -->
-                                      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                                        <span class="glyphicon glyphicon-chevron-left"></span>
-                                      </a>
-                                      <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                                        <span class="glyphicon glyphicon-chevron-right"></span>
-                                      </a>
-                                </div> <!-- Carousel -->
-
-                                {% endif %}
-
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
