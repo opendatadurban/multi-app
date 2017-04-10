@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <script src="https://wazimap.co.za/static/js/embed.chart.make.js"></script>
+
+    <script>
+
+        function geoFindMe() {
+            document.getElementById("locate").textContent = "Locating, please wait...";
+            if (!navigator.geolocation) {
+                console.log("Geolocation is not supported by your browser");
+            }
+
+            function success(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                document.getElementById("lat").value = latitude;
+                document.getElementById("lon").value = longitude;
+                document.getElementById("locate").textContent = "You have been located!";
+            };
+
+            function error() {
+                document.getElementById("locate").textContent = "Unable to find your location";
+                //console.log("Unable to retrieve your location");
+            };
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+    </script>
+
+    <script type="text/javascript">
+    $(function(){
+
+        $('#census-reporter-embed').carousel(
+            {interval: 5000,
+            cycle: true}
+        );
+
+        $('#census-reporter-embed').on('slide.bs.carousel', function () {
+{#            $('.carousel-inner').empty();#}
+            makeCensusEmbeds();
+        })
+    });
+
+    </script>
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Municipal Money Data</div>
+                    <div class="panel-body">
+
+                    {% if ward %}
+
+                                <div id="results">
+
+                                    <div id="census-reporter-embed" class="carousel slide" data-ride="carousel" style="text-align: center">
+                                      <!-- Indicators -->
+                                      <ol class="carousel-indicators">
+                                        <li data-target="census-reporter-embed" data-slide-to="0" class="active"></li>
+                                        <li data-target="census-reporter-embed" data-slide-to="1"></li>
+                                        <li data-target="census-reporter-embed" data-slide-to="2"></li>
+                                      </ol>
+
+                                      <!-- Wrapper for slides -->
+                                      <div class="carousel-inner">
+                                        <div class="item active">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-age_category_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-age_category_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                        <div class="item">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-sex_ratio" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-sex_ratio&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Sex&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                        <div class="item">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-region_of_birth_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-region_of_birth_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Region+of+birth&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                        <div class="item">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-economics-employment_status" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=economics-employment_status&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=Universe%3A+Workers+15+and+over&chartTitle=Population+by+employment+status&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                        <div class="item">
+                                          <iframe id="cr-embed-ward-{{ ward_id }}-households-tenure_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=households-tenure_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Households+by+ownership&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                        </div>
+                                      </div>
+
+                                      <!-- Controls -->
+
+                                    </div> <!-- Carousel -->
+
+                        {% else %}
+
+                        {% if missing %}
+                            <p class="alert alert-warning">Hmm, we couldn't find your address or ward. Please try again.</p>
+                        {% endif %}
+                        <form role="form" action="/munimoney">
+                            <div class="form-group">
+                                <label class="control-label" for="address">Enter your address:</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="address" name="address"
+                                           placeholder="e.g. 54 Main Rd, St James" value="{{ address }}">
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-primary">Find my municipality</button>
+                                        </span>
+                                </div>
+                                <input type="hidden" id="lat" name="lat">
+                                <input type="hidden" id="lon" name="lon">
+                                <p class="help-block">Please include your suburb name in the address where possible, putting
+                                    just the city may lead to a crash. </p>
+                            </div>
+                            <label class="control-label" for="address">Or, use your location:</label>
+                            <div class="small">Sorry, doesn't work in Chrome</div>
+                            <br>
+                            <button type="button" class="btn btn-default" id="locate" onclick="geoFindMe()">Locate</button>
+                            <br>
+                        </form>
+
+                         {% endif %}
+
+                                </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="footer-below text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" style="">
+                    An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for an <a target="_blank"
+                                                                                                             href="https://openup.org.za/">OpenUp</a> tool.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaA3pHjVF2BRzTrwbJwWgQr8RnsEnun0g&libraries=places&callback=init"
+            async defer></script>
+
+    <script>
+        function init() {
+            var input = document.getElementById('address');
+            var options = {
+                types: ['(cities)'],
+                componentRestrictions: {country: 'ZA'}
+            };
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+    </script>
+
+{% endblock content %}

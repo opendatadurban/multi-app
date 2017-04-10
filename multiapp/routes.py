@@ -77,3 +77,37 @@ def wazimap():
             variables['missing'] = True
 
     return render_template('wazimap/wazimap.html', **variables)
+
+
+@app.route('/munimoney')
+def munimoney():
+    address = request.args.get("address")
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    muni = None
+
+    variables = {'missing': False}
+    candidates = []
+    if address:
+        muni = address_to_muni(address)
+    elif lat:
+        muni = coords_to_muni(lon, lat)
+
+    if muni:
+        if muni['muni']:
+            variables.update(muni)
+
+            cbalance = cash_balance(muni['muni_id'])
+
+            wasteful = wasteful_exp(muni['muni_id'])
+
+            spending = spending_capital(muni['muni_id'])
+
+            repair = repairs(muni['muni_id'])
+
+            return render_template('munimoney/munimoney.html', **variables)
+
+        else:
+            variables['missing'] = True
+
+    return render_template('munimoney/munimoney.html', **variables)
