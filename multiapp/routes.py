@@ -173,9 +173,6 @@ def find_related_products(nappi_code):
     return render_template('medicine/medicine.html', **variables)
 
 
-@app.route('/index', methods=['GET', 'POST'])
-
-
 @app.route('/index/<int:page>', methods=['GET', 'POST'])
 def index(page=1):
     product_name = request.args.get("product_name")
