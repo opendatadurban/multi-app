@@ -4,6 +4,8 @@ import datetime
 URL = "http://mapit.code4sa.org/address?address=%s&generation=2&type=WD"
 URL_mun = "http://mapit.code4sa.org/address?address=%s&generation=2&type=MN"
 URLxy = "http://mapit.code4sa.org/point/4326/%s,%s"
+med_search_URLxy = "https://mpr.code4sa.org/api/v2/search?q=%s"
+med_related_URLxy = "https://mpr.code4sa.org/api/v2/related?nappi=%s"
 
 def get_wazi_data(ward):
     url = 'https://www.wazimap.co.za/profiles/ward-%s.json' % ward['ward_id']
@@ -222,3 +224,28 @@ def repairs(muni_code):
             data[i] = 100 * float(data1[i]) / (float(data2[i]) + float(data3[i]))
 
     return data
+
+
+''' Find Medicine Prices'''
+
+
+def find_medicine(name):
+    url = med_search_URLxy % (name)
+    r = requests.get(url)
+    js = r.json()
+
+    if js:
+        return js
+
+    return None
+
+
+def find_related(id):
+    url = med_related_URLxy % (id)
+    r = requests.get(url)
+    js = r.json()
+
+    if js:
+        return js
+
+    return None

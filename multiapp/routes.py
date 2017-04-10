@@ -1,6 +1,6 @@
 from .models.models import *
 from multiapp.app import app
-from flask import render_template, request
+from flask import render_template, request, url_for, redirect
 from helpers import *
 import urllib2
 import json
@@ -111,3 +111,86 @@ def munimoney():
             variables['missing'] = True
 
     return render_template('munimoney/munimoney.html', **variables)
+
+
+@app.route('/medicine_prices')
+def medicine_prices():
+    product_name = request.args.get("product_name")
+    variables = {'missing': False, 'num_results': 0, 'originator': None}
+
+    if product_name:
+        results = find_medicine(product_name)
+
+        if results:
+            variables['product_list'] = results
+            variables['num_results'] = len(results)
+            variables['product_name'] = product_name
+
+        else:
+            variables['missing'] = True
+
+    return render_template('medicine/medicine.html', **variables)
+
+
+@app.route('/find_related_products/<string:nappi_code>')
+def find_related_products(nappi_code):
+    product_name = None
+    results = None
+    originator = None
+    variables = {'missing': False, 'no_similar': False, 'originator': None,
+                 'is_comparative_search': False}
+
+    if nappi_code:
+        results = find_related(int(nappi_code))
+
+    if results:
+        for i in range(len(results)):
+            if results[i]['nappi_code'] == nappi_code:
+                product_name = results[i]['name']
+                originator = results[i]
+                variables['product_name'] = product_name
+                break
+
+        results = results[:i] + results[i + 1:]  # remove originator from results list
+
+        if len(results) < 1:
+            variables['no_similar'] = True
+        else:
+            variables['product_list'] = results
+            variables['num_results'] = len(results)
+            variables['is_comparative_search'] = True
+            variables['originator'] = originator
+
+    else:
+        variables['no_similar'] = True
+
+    if variables['no_similar'] and product_name:
+        results = find_medicine(product_name)
+        if results:
+            variables['product_list'] = results
+            variables['num_results'] = len(results)
+
+    return render_template('medicine/medicine.html', **variables)
+
+
+@app.route('/index', methods=['GET', 'POST'])
+
+
+@app.route('/index/<int:page>', methods=['GET', 'POST'])
+def index(page=1):
+    product_name = request.args.get("product_name")
+    variables = {'missing': False, 'num_results': 0}
+
+    if product_name:
+        results = find_medicine(product_name)
+        if results:
+            variables['product_list'] = results.pagination(page, POSTS_PER_PAGE, False)
+            variables['num_results'] = len(results)
+            variables['product_name'] = product_name
+            return redirect(url_for('index'))
+        else:
+            variables['missing'] = True
+
+    return render_template('medicine/medicine.html', **variables)
+
+
