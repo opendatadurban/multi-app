@@ -160,7 +160,8 @@ def wasteful_exp(muni_code):
                                  'period_length.length:"year"&aggregates=amount.sum' % (muni_code, y)).json()
 
         if 'summary' in r1.keys():
-            data1[y] = int(r1['summary']['amount.sum'])
+            if r1['summary']['amount.sum'] is not None:
+                data1[y] = int(r1['summary']['amount.sum'])
 
     r2 = requests.get('https://municipaldata.treasury.gov.za/api/cubes/uifwexp/facts?cut=demarcation.code:"%s"'
                       % muni_code).json()
@@ -208,7 +209,8 @@ def spending_capital(muni_code):
                           'period_length.length:"year"&aggregates=total_assets.sum' % (muni_code, y)).json()
 
         if 'summary' in r1.keys():
-            data1[y] = int(r1['summary']['total_assets.sum'])
+            if r1['summary']['total_assets.sum'] is not None:
+                data1[y] = int(r1['summary']['total_assets.sum'])
 
     data2 = {}
     for y in range(2013, 2017):
@@ -218,7 +220,8 @@ def spending_capital(muni_code):
                           'period_length.length:"year"&aggregates=total_assets.sum' % (muni_code, y)).json()
 
         if 'summary' in r2.keys():
-            data2[y] = int(r2['summary']['total_assets.sum'])
+            if r2['summary']['total_assets.sum'] is not None:
+                data2[y] = int(r2['summary']['total_assets.sum'])
 
     if len(data1) != 0 and len(data2) != 0:
         values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
@@ -253,7 +256,8 @@ def repairs(muni_code):
                           'period_length.length:"year"&aggregates=repairs_maintenance.sum' % (muni_code, y)).json()
 
         if 'summary' in r1.keys():
-            data1[y] = int(r1['summary']['repairs_maintenance.sum'])
+            if r1['summary']['repairs_maintenance.sum'] is not None:
+                data1[y] = int(r1['summary']['repairs_maintenance.sum'])
 
     data2 = {}
     for y in range(2013, 2017):
@@ -263,7 +267,8 @@ def repairs(muni_code):
                           'period_length.length:"year"&aggregates=amount.sum' % (muni_code, y)).json()
 
         if 'summary' in r2.keys():
-            data2[y] = int(r2['summary']['amount.sum'])
+            if r2['summary']['amount.sum'] is not None:
+                data2[y] = int(r2['summary']['amount.sum'])
 
     data3 = {}
     for y in range(2013, 2017):
@@ -273,7 +278,8 @@ def repairs(muni_code):
                           'period_length.length:"year"&aggregates=amount.sum' % (muni_code, y)).json()
 
         if 'summary' in r3.keys():
-            data3[y] = int(r3['summary']['amount.sum'])
+            if r3['summary']['amount.sum'] is not None:
+                data3[y] = int(r3['summary']['amount.sum'])
 
     if len(data1) != 0 and len(data2) != 0 and len(data3) != 0:
         values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
