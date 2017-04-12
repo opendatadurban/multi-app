@@ -57,14 +57,14 @@
 </script>
 
 <div style="font-size: 12px; text-align: left;">
-    <h4>Spending of Operating Budget <span>July {{ (spending.date - 1) }} - June {{ spending.date }}</span></h4>
+    <h4>Spending of Capital Budget <span>July {{ (spending.date - 1) }} - June {{ spending.date }}</span></h4>
     <div class="row" id="parent">
         <div class="col-sm-6" id="child">
             <div class="card-block item">
                 <br>
                 <p style="font-size: 24px; color: {{ spending.color }}"><b>{{ spending.recent }} <i class="fa {% if spending.color == '#4caf50' %}fa-smile-o{% elif spending.color == '#ff9800'%}fa-meh-o{% else %}fa-frown-o{% endif %} fa-lg m-t-2"></i></b></p>
 
-                <p>Difference between budgeted operating expenditure and what was actually spent.
+                <p>Difference between budgeted capital expenditure and what was actually spent.
                 </p>
 
                 <table class="table-condensed">

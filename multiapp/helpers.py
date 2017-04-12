@@ -182,8 +182,8 @@ def wasteful_exp(muni_code):
         for ind, i in enumerate(sorted(set(data1.keys()).intersection(set(data2.keys())))):
             val = 100.0 * float(data2[i]) / float(data1[i])
             values.append([str(i), val, ''.join(['%.1f' % val, '%']), '#f44336' if val > 0 else '#4caf50'])
-            colours.append('#f44336' if val > 0 else '#4caf50')
-            series[ind] = {'color': '#f44336' if val > 0 else '#4caf50'}
+            colours.append('#f44336' if round(val) > 0. else '#4caf50')
+            series[ind] = {'color': '#f44336' if round(val) > 0. else '#4caf50'}
 
     data['data'] = values
     data['series'] = series
