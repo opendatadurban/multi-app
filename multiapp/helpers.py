@@ -172,7 +172,8 @@ def wasteful_exp(muni_code):
                 if row['financial_year_end.year'] not in data2.keys():
                     data2[row['financial_year_end.year']] = 0
                 else:
-                    data2[row['financial_year_end.year']] += int(row['amount'])
+                    if row['amount'] is not None:
+                        data2[row['financial_year_end.year']] += int(row['amount'])
 
     if len(data1) != 0 and len(data2) != 0:
         values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
