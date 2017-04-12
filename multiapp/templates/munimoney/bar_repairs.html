@@ -1,0 +1,131 @@
+<script type="text/javascript">
+
+    function drawBar1() {
+
+        var data = google.visualization.arrayToDataTable({{ repair.data|safe }});
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('repairs'));
+
+        var options = {
+            stacked: true,
+            annotations: {alwaysOutside: true},
+            legend: {position: 'none'},
+            bars: 'vertical',
+            chartArea: {'width': '100%', 'height': '85%'},
+            vAxis: {
+                min: 0,
+                max:{{ repair.max }},
+                ticks: [{v: 0, f: '0%'}, {v:{{ repair.max }}, f: '{{ repair.max }}'}],
+                baselineColor: '#fff',
+                gridlineColor: '#fff',
+                textPosition: 'none',
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            bar: {groupWidth: '90%'},
+        };
+
+        chart.draw(data, options);
+
+        function resize() {
+            chart.draw(data, options);
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener('resize', resize);
+        }
+
+        else {
+            window.attachEvent('onresize', resize);
+        }
+
+    }
+    google.setOnLoadCallback(drawBar1);
+
+    var match_options = {
+        byRow: true,
+        property: 'min-height',
+        target: null,
+        remove: false
+    };
+
+{#    $(function () {#}
+{#        $('.carousel-inner').matchHeight(match_options);#}
+{#    });#}
+
+</script>
+
+<div style="font-size: 12px; text-align: left;">
+    <h4>Spending on Repairs and Maintenance <span>July {{ (repair.date - 1) }} - June {{ repair.date }}</span></h4>
+    <div class="row" id="parent">
+        <div class="col-sm-6" id="child">
+            <div class="card-block item">
+                <br>
+                <p style="font-size: 24px; color: {{ repair.color }}"><b>{{ repair.recent }} <i class="fa {% if repair.color == '#4caf50' %}fa-smile-o{% elif repair.color == '#ff9800'%}fa-meh-o{% else %}fa-frown-o{% endif %} fa-lg m-t-2"></i></b></p>
+
+                <p>Spending on Repairs and Maintenance as a percentage of Property, Plant
+                    and Equipment.
+                </p>
+
+                <table class="table-condensed">
+                    <tbody>
+                    <tr class="good-news">
+                        <td><b>good <i class="fa fa-smile-o fa-lg m-t-2"></i></b></td>
+                        <td><b>More than 8%</b></td>
+                    </tr>
+                    <tr class="bad-news">
+                        <td><b>bad <i class="fa fa-frown-o fa-lg m-t-2"></i></b></td>
+                        <td><b>Less than 8%</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="show-calc"><a href="#did-you-repair" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Did you know?</b></a></div>
+            <div class="show-calc"><a href="#rep-maint-calc" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Show calculation</b></a></div>
+        </div>
+
+        <div class="col-sm-6" id="child">
+            <div class="card-block item chart">
+                <div id="repairs" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="did-you-repair" style="font-size: 12px">
+        <div class="ref">
+            <br>
+            <p>Infrastructure must be maintained so that service delivery is not affected. This indicator looks#}
+                at how much money was budgeted for repairs and maintenance, as a percentage of total fixed
+                assets (property, plant and equipment). For every R10 spent on building/replacing
+                infrastructure, R0.80 should be spent every year on repairs and maintenance.</p>
+            <p>This translates into a Repairs and Maintenance budget that should be 8 percent of the value of
+                property, plant and equipment.</p>
+            <a href="https://www.youtube.com/embed/NPWI1vZRJI4" target="_blank" class="video-link"><i class="fa fa-play fa-fw"
+                                                                                      aria-hidden="true"></i>Play
+                video</a>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="rep-maint-calc" style="font-size: 10px">
+        <div class="ref">
+            <br>
+            <b>REFERENCE: </b><a
+                href="http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx" target="_blank">Circular 71</a></div>
+        <br>
+        <b>FORMULA</b> = Repairs and maintenance expenditure / (Property, Plant and Equipment + Investment Property)
+        <p>
+            <a href="https://municipaldata.treasury.gov.za/table/capital/?items=4100&amp;amountType=AUDA&amp;year=2016&amp;municipalities={{ muni_id }}"
+               target="_blank">Capital Acquisition item code 4100, Audited Actual</a>
+            /
+            (<a href="https://municipaldata.treasury.gov.za/table/bsheet/?items=1300&amp;amountType=AUDA&amp;year=2016&amp;municipalities={{ muni_id }}"
+                target="_blank">Balance Sheet item code 1300, Audited Actual</a>
+            +
+            <a href="https://municipaldata.treasury.gov.za/table/bsheet/?items=1401&amp;amountType=AUDA&amp;year=2016&amp;municipalities={{ muni_id }}"
+               target="_blank">Balance Sheet item code 1401, Audited Actual</a>)</p>
+    </div>
+
+</div>

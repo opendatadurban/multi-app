@@ -65,6 +65,9 @@ def get_councillor(ward):
     return js
 
 
+''' Municipal Money'''
+
+
 def coords_to_muni(lon, lat):
     url = URLxy % (lon, lat)
     r = requests.get(url)
@@ -116,15 +119,38 @@ def cash_balance(muni_code):
 
     if 'data' in r.keys():
         data = {}
+        values = None
+        series = None
+        colours = None
+
         for row in r['data']:
             if row['financial_period.period'] > 2012:
-                data[row['financial_period.period']] = int(row['amount'])
+                data[row['financial_period.period']] = [float(row['amount']), '#4caf50' if int(row['amount']) > 0 else '#f44336']
+
+        values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
+        series = {}
+        colours = []
+        for ind, i in enumerate(sorted(data.keys())):
+            val = float(data[i][0])
+            values.append([str(i), val, ' '.join(['%i' % (val/1000000), 'M']), '#4caf50' if val > 0 else '#f44336'])
+            colours.append('#4caf50' if val > 0 else '#f44336')
+            series[ind] = {'color': '#4caf50' if val > 0 else '#f44336'}
+
+        data['data'] = values
+        data['series'] = series
+        data['max'] = max([i[1] for i in values[1:]]) * 1.15
+        data['recent'] = values[-1][2]
+        data['date'] = int(values[-1][0])
+        data['color'] = colours[-1]
 
     return data
 
 
 def wasteful_exp(muni_code):
-    data = None
+    data = {}
+    values = None
+    series = None
+    colours = None
 
     data1 = {}
     for y in range(2013, 2017):
@@ -149,15 +175,30 @@ def wasteful_exp(muni_code):
                     data2[row['financial_year_end.year']] += int(row['amount'])
 
     if len(data1) != 0 and len(data2) != 0:
-        data = {}
-        for i in set(data1.keys()).intersection(set(data2.keys())):
-            data[i] = 100.0 * float(data2[i]) / float(data1[i])
+        values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
+        series = {}
+        colours = []
+        for ind, i in enumerate(sorted(set(data1.keys()).intersection(set(data2.keys())))):
+            val = 100.0 * float(data2[i]) / float(data1[i])
+            values.append([str(i), val, ''.join(['%.1f' % val, '%']), '#f44336' if val > 0 else '#4caf50'])
+            colours.append('#f44336' if val > 0 else '#4caf50')
+            series[ind] = {'color': '#f44336' if val > 0 else '#4caf50'}
+
+    data['data'] = values
+    data['series'] = series
+    data['max'] = max([i[1] for i in values[1:]]) * 1.15
+    data['recent'] = values[-1][2]
+    data['date'] = int(values[-1][0])
+    data['color'] = colours[-1]
 
     return data
 
 
 def spending_capital(muni_code):
-    data = None
+    data = {}
+    values = None
+    series = None
+    colours = None
     data1 = {}
     for y in range(2013, 2017):
 
@@ -179,15 +220,30 @@ def spending_capital(muni_code):
             data2[y] = int(r2['summary']['total_assets.sum'])
 
     if len(data1) != 0 and len(data2) != 0:
-        data = {}
-        for i in set(data1.keys()).intersection(set(data2.keys())):
-            data[i] = 100 * (float(data1[i]) - float(data2[i])) / float(data2[i])
+        values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
+        series = {}
+        colours = []
+        for ind, i in enumerate(sorted(set(data1.keys()).intersection(set(data2.keys())))):
+            val = 100 * (float(data1[i]) - float(data2[i])) / float(data2[i])
+            values.append([str(i), val, ''.join(['%.1f' % val, '%']), '#4caf50' if round(val) >= -5 else '#ff9800' if round(val) >= -15 else '#f44336'])
+            colours.append('#4caf50' if round(val) >= -5 else '#ff9800' if round(val) >= -15 else '#f44336')
+            series[ind] = {'color': '#4caf50' if round(val) >= -5 else '#f44336' if round(val) >= -15 else '#ff9800'}
+
+    data['data'] = values
+    data['series'] = series
+    data['min'] = min([i[1] for i in values[1:]]) * 1.15
+    data['recent'] = values[-1][2]
+    data['date'] = int(values[-1][0])
+    data['color'] = colours[-1]
 
     return data
 
 
 def repairs(muni_code):
-    data = None
+    data = {}
+    values = None
+    series = None
+    colours = None
     data1 = {}
     for y in range(2013, 2017):
 
@@ -219,9 +275,21 @@ def repairs(muni_code):
             data3[y] = int(r3['summary']['amount.sum'])
 
     if len(data1) != 0 and len(data2) != 0 and len(data3) != 0:
-        data = {}
-        for i in set.intersection(set(data1.keys()), set(data2.keys()), set(data3.keys())):
-            data[i] = 100 * float(data1[i]) / (float(data2[i]) + float(data3[i]))
+        values = [['Year', 'Value', {'role': "annotation"}, {'role': "style"}]]
+        series = {}
+        colours = []
+        for ind, i in enumerate(sorted(set.intersection(set(data1.keys()), set(data2.keys()), set(data3.keys())))):
+            val = 100 * float(data1[i]) / (float(data2[i]) + float(data3[i]))
+            values.append([str(i), val, ''.join(['%.1f' % val, '%']), '#4caf50' if val > 8 else '#f44336'])
+            colours.append('#4caf50' if val > 8 else '#f44336')
+            series[ind] = {'color': '#4caf50' if val > 8 else '#f44336'}
+
+    data['data'] = values
+    data['series'] = series
+    data['max'] = max([i[1] for i in values[1:]])*1.15
+    data['recent'] = values[-1][2]
+    data['date'] = int(values[-1][0])
+    data['color'] = colours[-1]
 
     return data
 

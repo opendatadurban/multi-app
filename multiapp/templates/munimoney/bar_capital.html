@@ -1,0 +1,131 @@
+<script type="text/javascript">
+
+    function drawBar4() {
+
+        var data4 = google.visualization.arrayToDataTable({{ spending.data|safe }});
+
+        var chart4 = new google.visualization.ColumnChart(document.getElementById('spending'));
+
+        var options4 = {
+            stacked: true,
+            annotations: {alwaysOutside: true},
+            legend: {position: 'none'},
+            bars: 'vertical',
+            chartArea: {'width': '100%', 'height': '85%'},
+            vAxis: {
+                min: {{ spending.min }},
+                max: 0,
+                ticks: [{v: 0, f: '0%'}, {v:{{ spending.min }}, f: '{{ spending.min }}'}],
+                baselineColor: '#fff',
+                gridlineColor: '#fff',
+                textPosition: 'none',
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            bar: {groupWidth: '90%'},
+        };
+
+        chart4.draw(data4, options4);
+
+        function resize4() {
+            chart4.draw(data4, options4);
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener('resize', resize4);
+        }
+
+        else {
+            window.attachEvent('onresize', resize4);
+        }
+
+    }
+    google.setOnLoadCallback(drawBar4);
+
+    var match_options = {
+        byRow: true,
+        property: 'min-height',
+        target: null,
+        remove: false
+    };
+
+{#    $(function () {#}
+{#        $('.carousel-inner').matchHeight(match_options);#}
+{#    });#}
+
+</script>
+
+<div style="font-size: 12px; text-align: left;">
+    <h4>Spending of Operating Budget <span>July {{ (spending.date - 1) }} - June {{ spending.date }}</span></h4>
+    <div class="row" id="parent">
+        <div class="col-sm-6" id="child">
+            <div class="card-block item">
+                <br>
+                <p style="font-size: 24px; color: {{ spending.color }}"><b>{{ spending.recent }} <i class="fa {% if spending.color == '#4caf50' %}fa-smile-o{% elif spending.color == '#ff9800'%}fa-meh-o{% else %}fa-frown-o{% endif %} fa-lg m-t-2"></i></b></p>
+
+                <p>Difference between budgeted operating expenditure and what was actually spent.
+                </p>
+
+                <table class="table-condensed">
+                    <tbody>
+                    <tr class="good-news">
+                        <td><b>good <i class="fa fa-smile-o fa-lg m-t-2"></i></b></td>
+                        <td><b>Up to 5%</b></td>
+                    </tr>
+                    <tr class="mid-news">
+                        <td><b>average <i class="fa fa-meh-o fa-lg m-t-2"></i></b></td>
+                        <td><b>Between 5% and 15%</b></td>
+                    </tr>
+                    <tr class="bad-news">
+                        <td><b>bad <i class="fa fa-frown-o fa-lg m-t-2"></i></b></td>
+                        <td><b>More than 15%</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="show-calc"><a href="#did-you-spending" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Did you know?</b></a></div>
+            <div class="show-calc"><a href="#spending-calc" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Show calculation</b></a></div>
+        </div>
+
+        <div class="col-sm-6" id="child">
+            <div class="card-block item chart">
+                <div id="spending" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="did-you-spending" style="font-size: 12px">
+        <div class="ref">
+            <br>
+            <p>Capital spending includes spending on infrastructure projects like new water pipes or building a library. Underspending on a capital budget can lead to an under-delivery of basic services. This indicator looks at the percentage by which actual spending falls short of the budget for capital expenses. Persistent underspending may be due to underresourced municipalities which cannot manage large projects on time.</p>
+                <p>Municipalities should aim to spend at least 95 percent of their capital budgets. Failure to spend even 85 percent is a clear warning sign.</p>
+            <a href="https://www.youtube.com/embed/VyCIK-VYZ7M" target="_blank" class="video-link"><i class="fa fa-play fa-fw"
+                                                                                      aria-hidden="true"></i>Play
+                video</a>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="wasteful-calc" style="font-size: 10px">
+        <div class="ref">
+            <br>
+            <b>REFERENCE: </b><a
+                href="http://mfma.treasury.gov.za/Media_Releases/Reports%20to%20Parliament/Pages/default.aspx" target="_blank">Over and under spending reports to parliament</a></div>
+        <br>
+        <b>FORMULA</b> = (Actual Capital Expenditure - Budgeted Capital Expenditure) / Budgeted Capital Expenditure
+        <p>
+            <a href="https://municipaldata.treasury.gov.za/table/capital/?items=4100&amountType=AUDA&year=2016&municipalities={{ muni_id }}"
+               target="_blank"> Capital item code 4100, Total Assets, Audited Actual</a>
+            -
+            (<a href="https://municipaldata.treasury.gov.za/table/capital/?items=4100&amountType=ADJB&year=2016&municipalities={{ muni_id }}"
+                target="_blank"> Capital item code 4100, Total Assets, Adjusted Budget</a>
+            /
+            (<a href="https://municipaldata.treasury.gov.za/table/capital/?items=4100&amountType=ADJB&year=2016&municipalities={{ muni_id }}"
+                target="_blank"> Capital item code 4100, Total Assets, Adjusted Budget</a>
+
+    </div>
+
+</div>

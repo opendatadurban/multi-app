@@ -1,0 +1,120 @@
+<script type="text/javascript">
+
+    function drawBar2() {
+
+        var data2 = google.visualization.arrayToDataTable({{ cbalance.data|safe }});
+
+        var chart2 = new google.visualization.ColumnChart(document.getElementById('cbalance'));
+
+        var options2 = {
+            stacked: true,
+            annotations: {alwaysOutside: true},
+            legend: {position: 'none'},
+            bars: 'vertical',
+            chartArea: {'width': '100%', 'height': '85%'},
+            vAxis: {
+                min: 0,
+                max:{{ cbalance.max }},
+                ticks: [{v: 0, f: '0%'}, {v:{{ cbalance.max }}, f: '{{ cbalance.max }}'}],
+                baselineColor: '#fff',
+                gridlineColor: '#fff',
+                textPosition: 'none',
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            bar: {groupWidth: '90%'},
+        };
+
+        chart2.draw(data2, options2);
+
+        function resize2() {
+            chart2.draw(data2, options2);
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener('resize', resize2);
+        }
+
+        else {
+            window.attachEvent('onresize', resize2);
+        }
+
+    }
+    google.setOnLoadCallback(drawBar2);
+
+    var match_options = {
+        byRow: true,
+        property: 'min-height',
+        target: null,
+        remove: false
+    };
+
+{#    $(function () {#}
+{#        $('.carousel-inner').matchHeight(match_options);#}
+{#    });#}
+
+</script>
+
+<div style="font-size: 12px; text-align: left;">
+    <h4>Cash Balance <span>July {{ (cbalance.date - 1) }} - June {{ cbalance.date }}</span></h4>
+    <div class="row" id="parent">
+        <div class="col-sm-6" id="child">
+            <div class="card-block item">
+                <br>
+                <p style="font-size: 24px; color: {{ cbalance.color }}"><b>{{ cbalance.recent }} <i class="fa {% if cbalance.color == '#4caf50' %}fa-smile-o{% elif cbalance.color == '#ff9800'%}fa-meh-o{% else %}fa-frown-o{% endif %} fa-lg m-t-2"></i></b></p>
+
+                <p>Cash balance at the end of the financial year.
+                </p>
+
+                <table class="table-condensed">
+                    <tbody>
+                    <tr class="good-news">
+                        <td><b>good <i class="fa fa-smile-o fa-lg m-t-2"></i></b></td>
+                        <td><b>Positive balance</b></td>
+                    </tr>
+                    <tr class="bad-news">
+                        <td><b>bad <i class="fa fa-frown-o fa-lg m-t-2"></i></b></td>
+                        <td><b>Negative balance</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="show-calc"><a href="#did-you-cbalance" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Did you know?</b></a></div>
+            <div class="show-calc"><a href="#cbalance-calc" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Show calculation</b></a></div>
+        </div>
+
+        <div class="col-sm-6" id="child">
+            <div class="card-block item chart">
+                <div id="cbalance" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="did-you-cbalance" style="font-size: 12px">
+        <div class="ref">
+            <br>
+            <p>A municipality's cash balance refers to the money it has in the bank that it can access easily. If a municipality's bank account is in overdraft it has a negative cash balance. Negative cash balances are a sign of serious financial management problems. A municipality should have enough cash on hand from month to month so that it can pay salaries, suppliers and so on.</p>
+            <a href="https://www.youtube.com/embed/akoO5Uhm1wQ" target="_blank" class="video-link"><i class="fa fa-play fa-fw"
+                                                                                      aria-hidden="true"></i>Play
+                video</a>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="cbalance-calc" style="font-size: 10px">
+        <div class="ref">
+            <br>
+            <b>REFERENCE: </b><a
+                href="http://mfma.treasury.gov.za/Media_Releases/The%20state%20of%20local%20government%20finances/Pages/default.aspx" target="_blank">State of Local Government Finances</a></div>
+        <br>
+        <b>FORMULA</b> = Cash available at year end
+        <p>
+            <a href="https://municipaldata.treasury.gov.za/table/cflow/?items=4200&amountType=AUDA&year=2016&municipalities={{ muni_id }}"
+               target="_blank">Cash Flow item code 4200, Audited Actual</a>
+
+    </div>
+
+</div>

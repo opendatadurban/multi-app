@@ -99,11 +99,19 @@ def munimoney():
 
             cbalance = cash_balance(muni['muni_id'])
 
+            variables['cbalance'] = cbalance
+
             wasteful = wasteful_exp(muni['muni_id'])
+
+            variables['wasteful'] = wasteful
 
             spending = spending_capital(muni['muni_id'])
 
+            variables['spending'] = spending
+
             repair = repairs(muni['muni_id'])
+
+            variables['repair'] = repair
 
             return render_template('munimoney/munimoney.html', **variables)
 

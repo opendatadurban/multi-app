@@ -1,3 +1,21 @@
 .panel-heading {
     font-size: 20px;
 }
+
+.carousel-indicators li { visibility: hidden; }
+
+.good-news {
+    color: #4caf50;
+}
+
+.mid-news {
+    color: #ff9800;
+}
+
+.bad-news {
+    color: #f44336;
+}
+
+.good-news .bad-news .mid-news {
+    font-size: 16px !important;
+}

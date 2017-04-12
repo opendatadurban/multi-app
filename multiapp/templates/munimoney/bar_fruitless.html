@@ -1,0 +1,123 @@
+<script type="text/javascript">
+
+    function drawBar3() {
+
+        var data3 = google.visualization.arrayToDataTable({{ wasteful.data|safe }});
+
+        var chart3 = new google.visualization.ColumnChart(document.getElementById('wasteful'));
+
+        var options3 = {
+            stacked: true,
+            annotations: {alwaysOutside: true},
+            legend: {position: 'none'},
+            bars: 'vertical',
+            chartArea: {'width': '100%', 'height': '85%'},
+            vAxis: {
+                min: 0,
+                max:{{ wasteful.max }},
+                ticks: [{v: 0, f: '0%'}, {v:{{ wasteful.max }}, f: '{{ wasteful.max }}'}],
+                baselineColor: '#fff',
+                gridlineColor: '#fff',
+                textPosition: 'none',
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            bar: {groupWidth: '90%'},
+        };
+
+        chart3.draw(data3, options3);
+
+        function resize3() {
+            chart3.draw(data3, options3);
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener('resize', resize3);
+        }
+
+        else {
+            window.attachEvent('onresize', resize3);
+        }
+
+    }
+    google.setOnLoadCallback(drawBar3);
+
+    var match_options = {
+        byRow: true,
+        property: 'min-height',
+        target: null,
+        remove: false
+    };
+
+{#    $(function () {#}
+{#        $('.carousel-inner').matchHeight(match_options);#}
+{#    });#}
+
+</script>
+
+<div style="font-size: 12px; text-align: left;">
+    <h4>Fruitless and Wasteful Expenditure <span>July {{ (wasteful.date - 1) }} - June {{ wasteful.date }}</span></h4>
+    <div class="row" id="parent">
+        <div class="col-sm-6" id="child">
+            <div class="card-block item">
+                <br>
+                <p style="font-size: 24px; color: {{ wasteful.color }}"><b>{{ wasteful.recent }} <i class="fa {% if wasteful.color == '#4caf50' %}fa-smile-o{% elif wasteful.color == '#ff9800'%}fa-meh-o{% else %}fa-frown-o{% endif %} fa-lg m-t-2"></i></b></p>
+
+                <p>Unauthorised, Irregular, Fruitless and Wasteful Expenditure as a percentage of operating expenditure.
+                </p>
+
+                <table class="table-condensed">
+                    <tbody>
+                    <tr class="good-news">
+                        <td><b>good <i class="fa fa-smile-o fa-lg m-t-2"></i></b></td>
+                        <td><b>0%</b></td>
+                    </tr>
+                    <tr class="bad-news">
+                        <td><b>bad <i class="fa fa-frown-o fa-lg m-t-2"></i></b></td>
+                        <td><b>More than 0%</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="show-calc"><a href="#did-you-wasteful" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Did you know?</b></a></div>
+            <div class="show-calc"><a href="#wasteful-calc" data-toggle="collapse" class="show-more"><span
+                    class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span><b> Show calculation</b></a></div>
+        </div>
+
+        <div class="col-sm-6" id="child">
+            <div class="card-block item chart">
+                <div id="wasteful" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="did-you-wasteful" style="font-size: 12px">
+        <div class="ref">
+            <br>
+            <p><b>Unauthorised</b> expenditure means any spending that was not budgeted for or that is unrelated to the municipal department's function. An example is using municipal funds to pay for unbudgeted projects. <b>Irregular</b> expenditure is spending that goes against the relevant legislation, municipal policies or by-laws. An example is awarding a contract that did not go through tender procedures. <b>Fruitless and wasteful expenditure</b> concerns spending which was made in vain and would have been avoided had reasonable care been exercised. An example of such expenditure would include paying a deposit for a venue and not using it and losing the deposit.</p>
+            <a href="https://www.youtube.com/embed/pMg9sjTOKKQ" target="_blank" class="video-link"><i class="fa fa-play fa-fw"
+                                                                                      aria-hidden="true"></i>Play
+                video</a>
+        </div>
+    </div>
+
+    <div class="calc collapse" id="wasteful-calc" style="font-size: 10px">
+        <div class="ref">
+            <br>
+            <b>REFERENCE: </b><a
+                href="http://mfma.treasury.gov.za/Circulars/Pages/Circular71.aspx" target="_blank">Circular 71</a></div>
+        <br>
+        <b>FORMULA</b> = Unauthorised, Irregular, Fruitless and Wasteful Expenditure / Actual Operating Expenditure
+        <p>
+            <a href="https://municipaldata.treasury.gov.za/table/uifwexp/?items=irregular%2Cfruitless%2Cunauthorised&year=2014&municipalities={{ muni_id }}"
+               target="_blank"> Unauthorised, Irregular, Fruitless and Wasteful Expenditure item codes irregular, fruitless, unauthorised</a>
+            /
+            (<a href="https://municipaldata.treasury.gov.za/table/incexp/?items=4600&amountType=AUDA&year=2014&municipalities={{ muni_id }}"
+                target="_blank"> Income & Expenditure item code 4600, Audited Actual</a>
+            <b>NOTE:</b> Since calling expenditures unauthorised, fruitless and wasteful or irregular can involve quite a lot of debate, the numbers used are the restated audited amounts 18 months after the financial year end - part of the Medium Term Revenue and Expenditure Framework.
+    </div>
+
+</div>
