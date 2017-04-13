@@ -70,7 +70,7 @@ def get_councillor(ward):
 
 def get_clinic(ward):
     id = ward['ward_id']
-    r = requests.get('http://data.opendata.durban/api/action/datastore_search?resource_id=8db5e4df-0e24-477a-ba9c-1efe63910586&q=%s&limit=5' % id)
+    r = requests.get('http://data.opendata.durban/api/action/datastore_search?resource_id=8db5e4df-0e24-477a-ba9c-1efe63910586&q=%s' % id)
     js = r.json()
     return js['result']
 
