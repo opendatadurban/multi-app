@@ -14,12 +14,6 @@ import re
 def home():
     form = SearchForm()
 
-    # url = 'http://data.opendata.durban/api/action/'
-    # req = urllib2.Request(url)
-    # req.add_header('Authorization')
-    # resp = urllib2.urlopen(req)
-    # content = json.loads(resp.read())
-
     if request.method == 'POST':
 
         return render_template('home/home.html', form=form)

@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-info">
-                    <div class="panel-heading">Find Your Nearest Hospital/Clinic</div>
+                    <div class="panel-heading">Find Your Nearest Hospital / Clinic in Mpumalanga</div>
                     <div class="panel-body">
                         {% if missing %}
                             <p class="alert alert-warning">Hmm, we couldn't find your address or ward. Please try
@@ -56,14 +56,14 @@
                                     <input type="text" class="form-control" id="address" name="address"
                                            placeholder="e.g. 54 Main Rd, St James" value="{{ address }}">
                                     <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-primary">Find my ward</button>
+                                            <button type="submit" class="btn btn-primary">Find my clinic</button>
                                         </span>
                                 </div>
                                 <input type="hidden" id="lat" name="lat">
                                 <input type="hidden" id="lon" name="lon">
                                 <p class="help-block">Please include your suburb name in the address where possible,
                                     putting
-                                    just the city may lead to a crash. </p>
+                                    just the city may lead to a crash. Please note, currently this is only for clinics in Mpumalanga. </p>
                             </div>
                             <label class="control-label" for="address">Or, use your location:</label>
                             <div class="small">Sorry, doesn't work in Chrome</div>
