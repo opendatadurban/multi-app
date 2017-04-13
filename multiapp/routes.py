@@ -199,3 +199,36 @@ def index(page=1):
     return render_template('medicine/medicine.html', **variables)
 
 
+@app.route('/find_doctors')
+def find_doctors():
+    return render_template('doctorsmp/doctorsmp.html')
+
+
+@app.route('/find_clinic')
+def find_clinic():
+    address = request.args.get("address")
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+    ward = None
+
+    variables = {'missing': False}
+    candidates = []
+    if address:
+        ward = address_to_ward(address)
+    elif lat:
+        ward = coords_to_ward(lon, lat)
+
+    if ward:
+        if ward['ward']:
+            print ward
+            variables.update(ward)
+            print variables
+            clinic = get_clinic(ward)
+            variables["clinics"] = clinic
+            print variables
+            variables["modals"] = 1
+
+        else:
+            variables['missing'] = True
+
+    return render_template('clinics/clinic.html', **variables)

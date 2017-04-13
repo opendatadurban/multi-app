@@ -65,6 +65,16 @@ def get_councillor(ward):
     return js
 
 
+''' Clinic Finder'''
+
+
+def get_clinic(ward):
+    id = ward['ward_id']
+    r = requests.get('http://data.opendata.durban/api/action/datastore_search?resource_id=8db5e4df-0e24-477a-ba9c-1efe63910586&q=%s&limit=5' % id)
+    js = r.json()
+    return js['result']
+
+
 ''' Municipal Money'''
 
 

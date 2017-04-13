@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <script>
+
+        function geoFindMe() {
+            document.getElementById("locate").textContent = "Locating, please wait...";
+            if (!navigator.geolocation) {
+                console.log("Geolocation is not supported by your browser");
+            }
+
+            function success(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                document.getElementById("lat").value = latitude;
+                document.getElementById("lon").value = longitude;
+                document.getElementById("locate").textContent = "You have been located!";
+            };
+
+            function error() {
+                document.getElementById("locate").textContent = "Unable to find your location";
+                //console.log("Unable to retrieve your location");
+            };
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+        {% if modals == 1 %}
+
+            $(document).ready(function () {
+                $('#myModal').modal('show');
+            });
+        {% endif %}
+    </script>
+
+
+
+
+
+    <section class="container">
+        <!-- Trigger the modal with a button -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Find A Doctor</div>
+                    <div class="panel-body" style="text-align: center">
+                        <p>The HPCSA, in conjunction with its 12 Professional Boards, is committed to promoting the health of the population, determining standards of professional education and training, and setting and maintaining excellent standards of ethical and professional practice. </p>
+                    <a href="http://isystems.hpcsa.co.za/iregister/" target="_blank">Find A Registered Doctor in your area</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="footer-below text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" style="">
+                    An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for a <a
+                        target="_blank"
+                        href="http://speakupmzansi.org.za/">Speak
+                    Up Mzansi</a> tool.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaA3pHjVF2BRzTrwbJwWgQr8RnsEnun0g&libraries=places&callback=init"
+            async defer></script>
+
+    <script>
+        function init() {
+            var input = document.getElementById('address');
+            var options = {
+                types: ['(cities)'],
+                componentRestrictions: {country: 'za'}
+            };
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+    </script>
+
+{% endblock content %}
+

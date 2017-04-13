@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <script>
+
+        function geoFindMe() {
+            document.getElementById("locate").textContent = "Locating, please wait...";
+            if (!navigator.geolocation) {
+                console.log("Geolocation is not supported by your browser");
+            }
+
+            function success(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                document.getElementById("lat").value = latitude;
+                document.getElementById("lon").value = longitude;
+                document.getElementById("locate").textContent = "You have been located!";
+            };
+
+            function error() {
+                document.getElementById("locate").textContent = "Unable to find your location";
+                //console.log("Unable to retrieve your location");
+            };
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+        {% if modals == 1 %}
+
+            $(document).ready(function () {
+                $('#myModal').modal('show');
+            });
+        {% endif %}
+    </script>
+
+
+
+
+
+    <section class="container">
+        <!-- Trigger the modal with a button -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Find Your Nearest Hospital/Clinic</div>
+                    <div class="panel-body">
+                        {% if missing %}
+                            <p class="alert alert-warning">Hmm, we couldn't find your address or ward. Please try
+                                again.</p>
+                        {% endif %}
+                        <form role="form" action="/find_clinic">
+                            <div class="form-group">
+                                <label class="control-label" for="address">Enter your address:</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="address" name="address"
+                                           placeholder="e.g. 54 Main Rd, St James" value="{{ address }}">
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-primary">Find my ward</button>
+                                        </span>
+                                </div>
+                                <input type="hidden" id="lat" name="lat">
+                                <input type="hidden" id="lon" name="lon">
+                                <p class="help-block">Please include your suburb name in the address where possible,
+                                    putting
+                                    just the city may lead to a crash. </p>
+                            </div>
+                            <label class="control-label" for="address">Or, use your location:</label>
+                            <div class="small">Sorry, doesn't work in Chrome</div>
+                            <br>
+                            <button type="button" class="btn btn-default" id="locate" onclick="geoFindMe()">Locate
+                            </button>
+                            <br>
+                        </form>
+                        {% if ward %}
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Your nearest Hospitals/Clinics are:</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="results">
+                                                {% if address %}
+                                                    {# <p>Get more information about this ward in <a target="_blank"
+                                            href="https://www.wazimap.co.za/profiles/ward-{{ clinic.ward_id }}">Wazimap</a></p>#}
+
+                                                    {% for clinic in clinics.records %}
+                                                        {% if clinic > 0 %}
+                                                            <p><b>Name: </b>{{ clinic.Name }}</p>
+                                                            <p><b>Ward: </b>({{ clinic.wardid }})</p>
+                                                            <p><b>Physical Address: </b>{{ clinic.Physical_Address }}
+                                                            </p>
+                                                            <p><b>Trading Hours: </b>({{ clinic.Trading_Hours }})</p>
+                                                            <p><b>Contact Details: </b>{{ clinic.Contact_Details }}</p>
+                                                            <p><b>District: </b>({{ clinic.District }})</p>
+                                                            <hr/>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <p>No Hospitals or clinics found, Please try again.</p>
+                                                    {% endfor %}
+                                                    </div>
+
+                                                {% endif %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="footer-below text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" style="">
+                    An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for a <a
+                        target="_blank"
+                        href="http://speakupmzansi.org.za/">Speak
+                    Up Mzansi</a> tool.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaA3pHjVF2BRzTrwbJwWgQr8RnsEnun0g&libraries=places&callback=init"
+            async defer></script>
+
+    <script>
+        function init() {
+            var input = document.getElementById('address');
+            var options = {
+                types: ['(cities)'],
+                componentRestrictions: {country: 'za'}
+            };
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+    </script>
+
+{% endblock content %}
+
