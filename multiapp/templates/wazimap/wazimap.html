@@ -47,46 +47,45 @@
     </script>
 
     <section class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Wazimap Ward Data</div>
-                    <div class="panel-body">
+        <div class="widget">
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                <div class="header1"><a href="/wazimap">Wazimap Ward Data</a></div>
 
                     {% if ward %}
+                        <hr class="slim-hr">
+                        <div id="results">
 
-                                <div id="results">
+                            <div id="census-reporter-embed" class="carousel slide" data-ride="carousel" style="text-align: center">
+                              <!-- Indicators -->
+                              <ol class="carousel-indicators">
+                                <li data-target="census-reporter-embed" data-slide-to="0" class="active"></li>
+                                <li data-target="census-reporter-embed" data-slide-to="1"></li>
+                                <li data-target="census-reporter-embed" data-slide-to="2"></li>
+                              </ol>
 
-                                    <div id="census-reporter-embed" class="carousel slide" data-ride="carousel" style="text-align: center">
-                                      <!-- Indicators -->
-                                      <ol class="carousel-indicators">
-                                        <li data-target="census-reporter-embed" data-slide-to="0" class="active"></li>
-                                        <li data-target="census-reporter-embed" data-slide-to="1"></li>
-                                        <li data-target="census-reporter-embed" data-slide-to="2"></li>
-                                      </ol>
+                              <!-- Wrapper for slides -->
+                              <div class="carousel-inner">
+                                <div class="item active">
+                                  <iframe id="cr-embed-ward-{{ ward_id }}-demographics-age_category_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-age_category_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                </div>
+                                <div class="item">
+                                  <iframe id="cr-embed-ward-{{ ward_id }}-demographics-sex_ratio" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-sex_ratio&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Sex&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                </div>
+                                <div class="item">
+                                  <iframe id="cr-embed-ward-{{ ward_id }}-demographics-region_of_birth_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-region_of_birth_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Region+of+birth&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                </div>
+                                <div class="item">
+                                  <iframe id="cr-embed-ward-{{ ward_id }}-economics-employment_status" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=economics-employment_status&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=Universe%3A+Workers+15+and+over&chartTitle=Population+by+employment+status&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                </div>
+                                <div class="item">
+                                  <iframe id="cr-embed-ward-{{ ward_id }}-households-tenure_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=households-tenure_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Households+by+ownership&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
+                                </div>
+                              </div>
 
-                                      <!-- Wrapper for slides -->
-                                      <div class="carousel-inner">
-                                        <div class="item active">
-                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-age_category_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-age_category_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Population+by+age+category&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
-                                        </div>
-                                        <div class="item">
-                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-sex_ratio" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-sex_ratio&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Sex&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
-                                        </div>
-                                        <div class="item">
-                                          <iframe id="cr-embed-ward-{{ ward_id }}-demographics-region_of_birth_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=demographics-region_of_birth_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Region+of+birth&initialSort=&statType=scaled-percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
-                                        </div>
-                                        <div class="item">
-                                          <iframe id="cr-embed-ward-{{ ward_id }}-economics-employment_status" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=economics-employment_status&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=Universe%3A+Workers+15+and+over&chartTitle=Population+by+employment+status&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
-                                        </div>
-                                        <div class="item">
-                                          <iframe id="cr-embed-ward-{{ ward_id }}-households-tenure_distribution" class="census-reporter-embed" src="https://wazimap.co.za/embed/iframe.html?geoID=ward-{{ ward_id }}&chartDataID=households-tenure_distribution&dataYear=2011&chartType=pie&chartHeight=200&chartQualifier=&chartTitle=Households+by+ownership&initialSort=-value&statType=percentage" frameborder="0" width="100%" height="300" style="max-width: 300px; max-height: 300px"></iframe>
-                                        </div>
-                                      </div>
-
-                                      <!-- Controls -->
-
-                                    </div> <!-- Carousel -->
+                              <!-- Controls -->
+                            </div> <!-- Carousel -->
 
                         {% else %}
 
@@ -100,7 +99,7 @@
                                     <input type="text" class="form-control" id="address" name="address"
                                            placeholder="e.g. 54 Main Rd, St James" value="{{ address }}">
                                     <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-primary">Find my ward</button>
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
                                         </span>
                                 </div>
                                 <input type="hidden" id="lat" name="lat">
@@ -114,28 +113,27 @@
                             <button type="button" class="btn btn-default" id="locate" onclick="geoFindMe()">Locate</button>
                             <br>
                         </form>
+                    {% endif %}
 
-                         {% endif %}
-
-                                </div>
+                    <div class="footer-below text-center">
+                        <div class="row">
+                            <div class="col-lg-12" style="">
+                                <p>An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for an <a target="_blank"
+                                                                                                                             href="https://openup.org.za/">OpenUp</a> tool.</p>
+                            </div>
+                        </div>
+                    </div>
 
                     </div>
-                </div>
-            </div>
-        </div>
 
-    </section>
-
-    <div class="footer-below text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="">
-                    An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for an <a target="_blank"
-                                                                                                             href="https://openup.org.za/">OpenUp</a> tool.
                 </div>
             </div>
         </div>
     </div>
+
+</section>
+
+
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaA3pHjVF2BRzTrwbJwWgQr8RnsEnun0g&libraries=places&callback=init"
             async defer></script>

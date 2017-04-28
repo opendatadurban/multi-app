@@ -1,41 +1,17 @@
-<style tpye="text/css">
-    .right-align{
-        text-align: right;
-        float: right;
-        white-space: nowrap;
-        display: inline-block;
-    }
-    #filter_button{
-        padding: 2px 4px;
-    }
-    /* table data needs to be reformatted to look like <p>*/
-</style>
-
 {% extends "layout.html" %}
 
 {% block content %}
-
+<script>{% if modals == 1 %}
+   $(document).ready(function () {
+           $('#myModal').modal('show');
+   });
+   {% endif %}
+</script>
     <section class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-info">
-                    <div class="panel-heading"><a href="/medicine_prices">Medicine Prices</a></div>
+        <div class="widget">
+                <div class="panel panel-default">
                     <div class="panel-body">
-
-
-                        <form role="form" action="/medicine_prices">
-                            <div class="form-group">
-                                <label class="control-label" for="product_name">Search for a medicine or ingredient:</label>
-                                <div class="input-group">
-                                   <input type="text" class="form-control" id="product_name" name="product_name"
-                                          placeholder="e.g. salbutamol or lamictin" value="{{ product_name }}">
-                                    <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-primary">Search</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
-
+                    <div class="header1"><a href="/medicine_prices">Find Medicine Prices</a></div>
                         {% if missing %}
                             <br>
                             <p class="alert alert-warning">No matching medicines or ingredients found.</p>
@@ -45,12 +21,46 @@
                             <p class="alert alert-warning">No products similar to {{ product_name }} could be found.</p>
                         {% endif %}
 
+                        <form role="form" action="/medicine_prices">
+                            <div class="form-group">
+                                <label class="control-label" for="product_name">Search for a medicine or ingredient:</label>
+                                <div class="input-group">
+                                   <input type="text" class="form-control" id="product_name" name="product_name"
+                                          placeholder="e.g. salbutamol or lamictin" value="{{ product_name }}">
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-primary" value="Submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+
+
+
                        {% if product_list %}
+                           <div class="modal fade" id="myModal" role="dialog">
+                           <div class="modal-dialog">
+
+                               <!-- Modal content-->
+                               <div class="modal-content">
+                                   <div class="modal-header">
+                                       <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                       <h3 class="modal-title">
+                                           {% if is_comparative_search %}
+                                               Compare <strong> {{ originator.name }} </strong> with similar products
+                                           {% else %}
+                                               Displaying {{ num_results }} result(s) for <strong>{{ product_name }}</strong>
+                                           {% endif %}
+
+                                       </h3>
+                                   </div>
+                                   <div class="modal-body">
+
+
 
                             <!-- Compare resuls -->
                            {% if is_comparative_search %}
                                <div id="comparison">
-                                   <hr>
+
                                    <div class="panel-group">
                                    <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -58,15 +68,16 @@
                                                 <a class="panel-title product-name collapse in" data-toggle="collapse" href="#product_{{ originator.nappi_code }}">
                                                 <div class="row">
                                                     <div class="col-xs-6">{{ originator.name }}</div>
-                                                    <div class="col-xs-6" style="text-align: right">{{ originator.sep }}</div>
+                                                    <div class="col-xs-6" id="red" >{{ originator.sep }}</div>
                                                 </div>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id="product_{{ originator.nappi_code }}" class="panel-collapse collapse">
-                                            <div class="panel-body">
+                                            <div class="panel-body results-list">
                                                 <div class="col-sm-6">
                                                     <h4>Product Details</h4>
+                                                    <hr class="slim-hr">
                                                     <p>Max price (incl VAT and fees): <span class="right-align"> {{ originator.sep }}</span></p>
                                                     <p>Cost per unit: <span class="right-align"> {{ originator.cost_per_unit }}</span></p>
                                                     <p>Dispensing Fee: <span class="right-align"> {{ originator.dispensing_fee }}</span></p>
@@ -76,9 +87,9 @@
                                                     <p>Number of packs: <span class="right-align"> {{ originator.num_packs }}</span></p>
                                                     <p>Generic/Innovator: <span class="right-align"> {{ originator.is_generic }}</span></p>
                                                 </div>
-                                                <br>
                                                 <div class="col-sm-6">
                                                     <h4>Ingredients</h4>
+                                                <hr class="slim-hr">
                                                     {% for item in originator.ingredients %}
                                                         <p>{{ item.name }} <span class="right-align"> {{ item.strength }}{{ item.unit }}</span></p>
                                                     {% endfor %}
@@ -92,18 +103,9 @@
                            {% endif %}
 
                             <div id="results">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        {% if is_comparative_search %}
-                                            <p>{{ num_results }} product(s) with similar ingredients to <strong>{{ product_name }}</strong></p>
-                                        {% else %}
-                                             <p> {{ num_results }} result(s) for <strong>{{ product_name }}</strong></p>
-                                        {% endif %}
-                                    </div>
-                                </div>
-
-                                <br>
-
+                                {% if is_comparative_search %}
+                                    <p>{{ num_results }} product(s) related to <strong>{{ product_name }}</strong></p>
+                                {% endif %}
                                 <div class="panel-group" id="accordion">
                                     {% for product in product_list %}
                                     <div class="panel panel-default">
@@ -114,7 +116,7 @@
 
 
                                                     <div class="col-xs-6">{{ product.name }}</div>
-                                                    <div class="col-xs-6" style="text-align: right">{{ product.sep }}</div>
+                                                    <div class="col-xs-6" id="red">{{ product.sep }}</div>
 
                                                 </div>
                                                 </a>
@@ -122,9 +124,10 @@
                                         </div>
 
                                         <div id="product_{{ product.nappi_code }}" class="panel-collapse collapse">
-                                            <div class="panel-body">
+                                            <div class="panel-body results-list">
                                                 <div class="col-sm-6">
                                                     <h4>Product Details</h4>
+                                                    <hr class="slim-hr">
                                                     <p>Max price (incl VAT and fees): <span class="right-align"> {{ product.sep }}</span></p>
                                                     <p>Cost per unit: <span class="right-align"> {{ product.cost_per_unit }}</span></p>
                                                     <p>Dispensing Fee: <span class="right-align"> {{ product.dispensing_fee }}</span></p>
@@ -134,16 +137,16 @@
                                                     <p>Number of packs: <span class="right-align"> {{ product.num_packs }}</span></p>
                                                     <p>Generic/Innovator: <span class="right-align"> {{ product.is_generic }}</span></p>
                                                 </div>
-                                                <br>
                                                 <div class="col-sm-6">
                                                     <h4>Ingredients</h4>
+                                                    <hr class="slim-hr">
                                                     {% for item in product.ingredients %}
                                                         <p>{{ item.name }} <span class="right-align"> {{ item.strength }}{{ item.unit }}</span></p>
                                                     {% endfor %}
                                                 </div>
 
-                                                <div class="col-sm-6">
-                                                <a href="/find_related_products/{{ product.nappi_code }}" class="btn btn-info" role="button">Compare</a>
+                                                <div class="col-sm-6" id="red-button">
+                                                <a href="/find_related_products/{{ product.nappi_code }}" class="btn btn-primary" role="button">Compare</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -152,23 +155,38 @@
                                 </div>
 
                             </div>
+
+
+                        <div class="modal-footer">
+                                       <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                       </button>
+                                   </div>
+                               </div>
+
+                           </div>
+                       </div>
+
+
+
+
                         {% endif %}
+                        </div>
+                        <div class="footer-below text-center">
+                            <div class="row">
+                                <div class="col-lg-12" style="">
+                                    <p>An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for an <a target="_blank" href="https://openup.org.za/">OpenUp</a> tool.</p>
+                                </div>
+                            </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
-
+        </div>
     </section>
 
-    <div class="footer-below text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="">
-                    An <a target="_blank" href="http://opendata.durban">Open Data Durban</a> widget for an <a target="_blank" href="https://openup.org.za/">OpenUp</a> tool.
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
 {% endblock content %}

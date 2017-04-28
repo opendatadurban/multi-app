@@ -1,0 +1,170 @@
+@import "placeholders";
+@import "mixins";
+@import "variables";
+
+body{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    background-color: $background-color;
+    font-size: 12px;
+}
+
+.footer-below{
+  padding-top: 10px;
+
+  &p{
+    font-size: 10px;
+  }
+}
+
+.center-align{
+  text-align:center;
+}
+
+.right-align{
+  text-align: right;
+  float: right;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.widget{
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.slim-hr{
+  margin: 5px 0;
+}
+#red{
+  text-align: right;
+  color: $odd-red;
+  a{
+    color: $odd-red;
+  }
+}
+
+#bootstrap-overrides {
+  body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    background-color: $background-color;
+    font-size: 12px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+  h2{
+    font-size:18px
+  }
+
+  h3 {
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 13px;
+  }
+
+
+  .header1 {
+    font-size: 26px;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", sans-serif;
+    margin: 0;
+    color: $header-color;
+    background-color: $background-color;
+    a {
+      color: $header-color;
+      text-decoration: none;
+      &:hover {
+        color: $hover-color;
+      }
+    }
+
+  }
+
+  .header2 {
+    font-size: 22px;
+    background-color: $odd-red;
+    color: white;
+    font-weight: 300;
+    a {
+      color: white;
+    }
+  }
+  #results, #comparison {
+    #red-link{
+      a{
+        color: $odd-red;
+      }
+    }
+    #red-button {
+      .btn-primary {
+        background-color: $odd-red;
+        border-color: #cccccc;
+      }
+      a {
+        color: white;
+      }
+
+    }
+    a {
+      color: #333;
+    }
+  }
+  #red-button {
+    .btn-primary {
+      background-color: $odd-red;
+      border-color: #cccccc;
+    }
+    a {
+      color: white;
+    }
+  }
+
+  a {
+    color: $odd-red;
+    text-decoration: none;
+    font-weight: 400;
+    &:hover{
+      color:$hover-color;
+    }
+  }
+
+  .panel-title {
+    font-size: 12px;
+  }
+
+  .panel-heading{
+    padding: 5px 15px;
+  }
+
+  .control-label {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .help-block{
+    font-size: 11px;
+  }
+
+  .btn-primary {
+    background-color: $odd-red;
+    border-color: #cccccc;
+    a{
+      color:white;
+    }
+  }
+
+  .panel-body {
+    .results-list{
+      padding: 10px 5px;
+    }
+  }
+  .modal-dialog{
+    max-width: 400px;
+    width: auto;
+    margin:0 auto;
+  }
+}

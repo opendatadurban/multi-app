@@ -19,7 +19,7 @@ def home():
         return render_template('home/home.html', form=form)
 
     else:
-        return render_template('home/home.html', title='App 1', form=form)
+        return render_template('home/home.html', title='ODD Multi-App', form=form)
 
 
 @app.route('/ward_councillor')
@@ -29,21 +29,26 @@ def ward_councillor():
     lon = request.args.get("lon")
     ward = None
 
-    variables = {'missing': False}
+    variables = {'missing': False, 'home_screen': True}
     candidates = []
     if address:
         ward = address_to_ward(address)
+        variables['home_screen'] = False
     elif lat:
         ward = coords_to_ward(lon, lat)
+        variables['home_screen'] = False
 
     if ward:
         if ward['ward']:
             variables.update(ward)
             councillor = get_councillor(ward)
             variables["councillor"] = councillor
+            variables['modals'] = 1
 
         else:
             variables['missing'] = True
+
+    variables['title'] = 'Ward Councillor'
 
     return render_template('councillor/councillor.html', **variables)
 
@@ -69,6 +74,8 @@ def wazimap():
 
         else:
             variables['missing'] = True
+
+    variables['title'] = 'Wazimap Data'
 
     return render_template('wazimap/wazimap.html', **variables)
 
@@ -112,13 +119,15 @@ def munimoney():
         else:
             variables['missing'] = True
 
+    variables['title'] = 'Munimoney Data'
+
     return render_template('munimoney/munimoney.html', **variables)
 
 
 @app.route('/medicine_prices')
 def medicine_prices():
     product_name = request.args.get("product_name")
-    variables = {'missing': False, 'num_results': 0, 'originator': None}
+    variables = {'missing': False, 'num_results': 0, 'originator': None, 'product_list': None}
 
     if product_name:
         results = find_medicine(product_name)
@@ -127,9 +136,12 @@ def medicine_prices():
             variables['product_list'] = results
             variables['num_results'] = len(results)
             variables['product_name'] = product_name
+            variables['modals'] = 1
 
         else:
             variables['missing'] = True
+
+    variables['title'] = 'Medicine Price Registry'
 
     return render_template('medicine/medicine.html', **variables)
 
@@ -140,7 +152,7 @@ def find_related_products(nappi_code):
     results = None
     originator = None
     variables = {'missing': False, 'no_similar': False, 'originator': None,
-                 'is_comparative_search': False}
+                 'is_comparative_search': False, 'product_list': None}
 
     if nappi_code:
         results = find_related(int(nappi_code))
@@ -162,40 +174,17 @@ def find_related_products(nappi_code):
             variables['num_results'] = len(results)
             variables['is_comparative_search'] = True
             variables['originator'] = originator
+            variables['modals'] = 1
 
     else:
         variables['no_similar'] = True
-
-    if variables['no_similar'] and product_name:
-        results = find_medicine(product_name)
-        if results:
-            variables['product_list'] = results
-            variables['num_results'] = len(results)
-
-    return render_template('medicine/medicine.html', **variables)
-
-
-@app.route('/index/<int:page>', methods=['GET', 'POST'])
-def index(page=1):
-    product_name = request.args.get("product_name")
-    variables = {'missing': False, 'num_results': 0}
-
-    if product_name:
-        results = find_medicine(product_name)
-        if results:
-            variables['product_list'] = results.pagination(page, POSTS_PER_PAGE, False)
-            variables['num_results'] = len(results)
-            variables['product_name'] = product_name
-            return redirect(url_for('index'))
-        else:
-            variables['missing'] = True
 
     return render_template('medicine/medicine.html', **variables)
 
 
 @app.route('/find_doctors')
 def find_doctors():
-    return render_template('doctorsmp/doctorsmp.html')
+    return render_template('doctorsmp/doctorsmp.html', title='Find Doctors')
 
 
 @app.route('/find_clinic')
@@ -224,5 +213,7 @@ def find_clinic():
 
         else:
             variables['missing'] = True
+
+    variables['title'] = 'Find Clinic'
 
     return render_template('clinics/clinic.html', **variables)

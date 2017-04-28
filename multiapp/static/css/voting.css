@@ -1,21 +1,106 @@
-.panel-heading {
-    font-size: 20px;
-}
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  background-color: #fff;
+  font-size: 12px; }
 
-.carousel-indicators li { visibility: hidden; }
+.footer-below {
+  padding-top: 10px; }
+  .footer-belowp {
+    font-size: 10px; }
 
-.good-news {
-    color: #4caf50;
-}
+.center-align {
+  text-align: center; }
 
-.mid-news {
-    color: #ff9800;
-}
+.right-align {
+  text-align: right;
+  float: right;
+  white-space: nowrap;
+  display: inline-block; }
 
-.bad-news {
-    color: #f44336;
-}
+.widget {
+  max-width: 400px;
+  margin: 0 auto; }
 
-.good-news .bad-news .mid-news {
-    font-size: 16px !important;
-}
+.slim-hr {
+  margin: 5px 0; }
+
+#red {
+  text-align: right;
+  color: #EC1C24; }
+  #red a {
+    color: #EC1C24; }
+
+#bootstrap-overrides body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  background-color: #fff;
+  font-size: 12px; }
+#bootstrap-overrides p {
+  font-size: 12px; }
+#bootstrap-overrides h2 {
+  font-size: 18px; }
+#bootstrap-overrides h3 {
+  font-size: 15px; }
+#bootstrap-overrides h4 {
+  font-size: 13px; }
+#bootstrap-overrides .header1 {
+  font-size: 26px;
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", sans-serif;
+  margin: 0;
+  color: #2c2e30;
+  background-color: #fff; }
+  #bootstrap-overrides .header1 a {
+    color: #2c2e30;
+    text-decoration: none; }
+    #bootstrap-overrides .header1 a:hover {
+      color: #464b51; }
+#bootstrap-overrides .header2 {
+  font-size: 22px;
+  background-color: #EC1C24;
+  color: white;
+  font-weight: 300; }
+  #bootstrap-overrides .header2 a {
+    color: white; }
+#bootstrap-overrides #results #red-link a, #bootstrap-overrides #comparison #red-link a {
+  color: #EC1C24; }
+#bootstrap-overrides #results #red-button .btn-primary, #bootstrap-overrides #comparison #red-button .btn-primary {
+  background-color: #EC1C24;
+  border-color: #cccccc; }
+#bootstrap-overrides #results #red-button a, #bootstrap-overrides #comparison #red-button a {
+  color: white; }
+#bootstrap-overrides #results a, #bootstrap-overrides #comparison a {
+  color: #333; }
+#bootstrap-overrides #red-button .btn-primary {
+  background-color: #EC1C24;
+  border-color: #cccccc; }
+#bootstrap-overrides #red-button a {
+  color: white; }
+#bootstrap-overrides a {
+  color: #EC1C24;
+  text-decoration: none;
+  font-weight: 400; }
+  #bootstrap-overrides a:hover {
+    color: #464b51; }
+#bootstrap-overrides .panel-title {
+  font-size: 12px; }
+#bootstrap-overrides .panel-heading {
+  padding: 5px 15px; }
+#bootstrap-overrides .control-label {
+  font-size: 13px;
+  font-weight: 400; }
+#bootstrap-overrides .help-block {
+  font-size: 11px; }
+#bootstrap-overrides .btn-primary {
+  background-color: #EC1C24;
+  border-color: #cccccc; }
+  #bootstrap-overrides .btn-primary a {
+    color: white; }
+#bootstrap-overrides .panel-body .results-list {
+  padding: 10px 5px; }
+#bootstrap-overrides .modal-dialog {
+  max-width: 400px;
+  width: auto;
+  margin: 0 auto; }
+
+/*# sourceMappingURL=voting.css.map */

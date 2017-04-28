@@ -1,14 +1,238 @@
-<form action="{{ url_for('home') }}" id="form" class="form-horizontal" method="POST">
-    {{ form.csrf_token }}
-    {{ form.hidden_tag() }}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card-block" style="height: 410px">
 
-    <div class="form-group {% if form.search.errors %} has-error {% endif %}">
-        <div>
-            {{ form.search(id='search', placeholder="Search...") }}
+            <script type="text/javascript">
+                function ln1() {
+                    $('#councillor').modal('show');
+                }
+            </script>
+
+            <iframe src="{{ url_for('ward_councillor') }}" style="border: none;width: 100%; height: 80%"></iframe>
+            <div style="text-align: center">
+                <input type="button" class="btn btn-default" value="Embed this widget" onClick="ln1();"/>
+            </div>
+
         </div>
-        <p class="help-block">
-            {{ form.search.errors[0] }}
     </div>
 
-    <input class="btn-search" id="home-search" type="submit" value="SEARCH" title="Search">
-</form>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card-block" style="height: 410px">
+
+            <script type="text/javascript">
+                function ln2() {
+                    $('#wazimap').modal('show');
+                }
+            </script>
+
+            <iframe src="{{ url_for('wazimap') }}" style="border: none;width: 100%; height: 80%"></iframe>
+            <div style="text-align: center">
+                <input type="button" class="btn btn-default" value="Embed this widget" onClick="ln2();"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card-block" style="height: 410px">
+
+            <script type="text/javascript">
+                function ln3() {
+                    $('#munimoney').modal('show');
+                }
+            </script>
+
+            <iframe src="{{ url_for('munimoney') }}" style="border: none;width: 100%; height: 80%"></iframe>
+            <div style="text-align: center">
+                <input type="button" class="btn btn-default" value="Embed this widget" onClick="ln3();"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card-block" style="height: 470px">
+
+            <script type="text/javascript">
+                function ln4() {
+                    $('#find_clinic').modal('show');
+                }
+            </script>
+
+            <iframe src="{{ url_for('find_clinic') }}" style="border: none;width: 100%; height: 80%"></iframe>
+            <div style="text-align: center">
+                <input type="button" class="btn btn-default" value="Embed this widget" onClick="ln4();"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card-block" style="height: 470px">
+
+            <script type="text/javascript">
+                function ln5() {
+                    $('#medicine_prices').modal('show');
+                }
+            </script>
+
+            <iframe src="{{ url_for('medicine_prices') }}" style="border: none;width: 100%; height: 80%"></iframe>
+            <div style="text-align: center">
+                <input type="button" class="btn btn-default" value="Embed this widget" onClick="ln5();"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card-block" style="height: 470px">
+
+            <script type="text/javascript">
+                function ln6() {
+                    $('#find_doctors').modal('show');
+                }
+            </script>
+
+            <iframe src="{{ url_for('find_doctors') }}" style="border: none;width: 100%; height: 80%"></iframe>
+            <div style="text-align: center">
+                <input type="button" class="btn btn-default" value="Embed this widget" onClick="ln6();"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="councillor" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Ward Councillor Embed Code:</h3>
+            </div>
+            <div class="modal-body">
+                <div id="results">
+                    <p><code>&ltiframe src="http://widgets.opendata.durban/ward_councillor" style="border: none;width: 100%; height: 350px"&gt&lt/iframe&gt</code></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="wazimap" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Ward Wazimap Embed Code:</h3>
+            </div>
+            <div class="modal-body">
+                <div id="results">
+                    <p><code>&ltiframe src="http://widgets.opendata.durban/wazimap" style="border: none;width: 100%; height: 350px"&gt&lt/iframe&gt</code></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="munimoney" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Ward Munimoney Embed Code:</h3>
+            </div>
+            <div class="modal-body">
+                <div id="results">
+                    <p><code>&ltiframe src="http://widgets.opendata.durban/munimoney" style="border: none;width: 100%; height: 350px"&gt&lt/iframe&gt</code></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="find_clinic" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Find Hospital / Clinic Embed Code:</h3>
+            </div>
+            <div class="modal-body">
+                <div id="results">
+                    <p><code>&ltiframe src="http://widgets.opendata.durban/find_clinic" style="border: none;width: 100%; height: 400px"&gt&lt/iframe&gt</code></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="medicine_prices" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Medicine Price Registry Embed Code:</h3>
+            </div>
+            <div class="modal-body">
+                <div id="results">
+                    <p><code>&ltiframe src="http://widgets.opendata.durban/medicine_prices" style="border: none;width: 100%; height: 350px"&gt&lt/iframe&gt</code></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="find_doctors" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Find Doctor Embed Code:</h3>
+            </div>
+            <div class="modal-body">
+                <div id="results">
+                    <p><code>&ltiframe src="http://widgets.opendata.durban/find_doctor" style="border: none;width: 100%; height: 350px"&gt&lt/iframe&gt</code></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
